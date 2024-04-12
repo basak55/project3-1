@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bori.project31.repository.SentenceMapper">
+
+	<select id="countSent" resultType="Integer">
+		SELECT COUNT(*) FROM Sentence	
+	</select>
+
+    <insert id="insertSentence" parameterType="com.bori.project31.model.Sentence">
+        INSERT INTO Sentence (sent, writer) VALUES (#{sent}, #{writer})
+    </insert>
+    
+    <update id="updateSentence" parameterType="com.bori.project31.model.Sentence">
+    	UPDATE Sentence SET sent=#{sent}, writer=#{writer} WHERE sno=#{sno}
+    </update>
+    
+    <select id="selectForGame" parameterType="Integer" resultType="com.bori.project31.model.Sentence">
+    	SELECT sent, writer FROM Sentence WHERE sno=#{sno}
+    </select>
+
+</mapper>

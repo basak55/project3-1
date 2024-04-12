@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bori.project31.repository.MemberMapper">
+
+    <!-- tb_member 테이블 전체 컬럼 -->
+    <sql id="memberColumns">
+          mno
+        , mid
+        , mpw
+        , name
+        , gender
+        , exp
+        , mintro
+    </sql>
+
+	<select id="selectMemberRank" resultType="com.bori.project31.model.MemberRank">
+		SELECT * FROM member_rank ORDER BY ranking ASC
+	</select>
+
+	<select id="selectRankByMno" parameterType="Integer" resultType="com.bori.project31.model.MemberRank">
+		SELECT * FROM member_rank WHERE mno=#{mno}
+	</select>
+
+	<insert id="insertMember" parameterType="com.bori.project31.model.Member"
+			useGeneratedKeys="true" keyProperty="mno">
+		INSERT INTO member (mid, mpw, name, gender, mintro)
+		VALUES (#{mid}, #{mpw}, #{name}, #{gender}, #{mintro})
+	</insert>
+
+	<update id="updateExp1" parameterType="Integer">
+		UPDATE member SET exp=exp+30 WHERE mno=#{mno}
+	</update>
+	<update id="updateExp2" parameterType="Integer">
+		UPDATE member SET exp=exp+10 WHERE mno=#{mno}
+	</update>
+
+	<update id="updateMember" parameterType="com.bori.project31.model.Member">
+		
+	</update>
+
+	<select id="selectById" parameterType="String" resultType="com.bori.project31.model.Member">
+		SELECT * FROM member WHERE mid=#{mid}
+	</select>
+	
+	<select id="selectByMno" parameterType="Integer" resultType="com.bori.project31.model.Member">
+		SELECT * FROM member WHERE mno=#{mno}
+	</select>
+	
+	<select id="countMemberById" parameterType="String" resultType="boolean">
+		SELECT COUNT(*) FROM member WHERE mid=#{mid}
+	</select>
+	
+
+</mapper>

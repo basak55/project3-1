@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.signup {  }
+.signuptable { width: 600px;}
+th { width: 25%;}
+td { width: 55%;}
+td input { width: 100%;}
+.radio_group { width :250px;}
+</style>
+</head>
+<body>
+	<div class="signup" >
+		<h2 th:text="회원가입"></h2>
+		<div id="signupForm">
+			<form action="member" method="post">
+				<table class="signuptable">
+					<tbody>
+						<tr>
+							<th scope="row">아이디</th>
+							<td><input type="text" name="mid" placeholder="아이디" id="mid"
+								maxlength="20" />
+								<label id="label1"></label></td>
+						</tr>
+						<tr>
+							<th scope="row">비밀번호</th>
+							<td><input type="text" name="mpw" placeholder="비밀번호"
+								maxlength="30" /></td>
+						</tr>
+						<tr>
+							<th scope="row">비밀번호 재입력</th>
+							<td><input type="text" placeholder="비밀번호 재입력" maxlength="30" /></td>
+						</tr>
+						<tr>
+							<th scope="row">이름</th>
+							<td><input type="text" name="name" placeholder="이름"
+								maxlength="10" /></td>
+						</tr>
+						<tr>
+							<th scope="row">성별</th>
+							<td>
+								<div class="radio_group">
+									<p class="radios">
+										<input type="radio" id="male" name="gender" value="M" style="width: 20%;" />
+										<label for="male">남</label><span class="check"></span>
+										<input type="radio" id="female" name="gender" value="F" style="width: 20%;" checked /> 
+										<label for="female">여</label><span class="check"></span>
+									</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">자기소개</th>
+							<td><textarea name="mintro" placeholder="자기소개"></textarea></td>
+						</tr>	
+						<tr>
+							<td colspan="2">
+								<div>
+								<button type="submit">가입하기</button>
+								<button type="button" onClick='location.href="/"'>이전으로</button>
+								</div>
+							</td>
+						</tr>					
+					</tbody>
+
+				</table>
+			</form>
+		</div>
+	</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	
+    $(document).ready(function() {
+    	
+    	$("#mid").on("focusout", function() {//input text 영역을 벗어나면 동작
+    		
+    		var mid = $("#mid").val();
+    		
+    		if(mid == '' || mid.length == 0) {
+    			$("#label1").css("color", "red").text("공백은 ID로 사용할 수 없습니다.");
+    			return false;
+    		}
+    		
+        	//Ajax로 전송
+        	$.ajax({
+        		url : '/checkId',
+        		data : {
+        			mid : mid
+        		},
+        		type : 'POST',
+        		dataType : 'json',
+        		success : function(result) {
+        			if (result == false) {
+        				$("#label1").css("color", "black").text("사용 가능한 ID 입니다.");
+        			} else{
+        				$("#label1").css("color", "red").text("사용 불가능한 ID 입니다.");
+        				$("#mid").val('');
+        			}
+        		}
+        	}); //End Ajax
+    	});
+    })
+		
+	</script>
+</body>
+</html>

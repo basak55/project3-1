@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+</style>
+</head>
+<body>
+	<div class="container" >
+		<h2>종합랭킹</h2>
+		<table class="memberRank">
+			<colgroup>
+				<col width="15%"/>
+				<col width="*"/>
+				<col width="25%"/>
+				<col width="20%"/>
+			</colgroup>
+			<thead>
+				<tr>
+					<th scope="col">순위</th>
+					<th scope="col">닉네임</th>
+					<th scope="col">레벨</th>
+					<th scope="col">경험치</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="list:${list}">
+					<td>[[${list.ranking}]]</td>
+					<td name="mno" value="${list.mno}"><a th:href="@{'/guest?mno=' + ${list.mno}}">[[${list.name}]]</td>
+					<td>[[${list.grade}]]</td>
+					<td>[[${list.exp}]]</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script type="text/javascript">
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container" >
+    <h2>종합랭킹</h2>
+    <table class="guestbookInfo">
+        <colgroup>
+            <col width="50%"/>
+            <col width="50%"/>
+        </colgroup>
+        <thead>
+        <tr>
+            <th scope="col">순위</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="list:${list}">
+            <td>[[${list.ranking}]]</td>
+            <td name="mno" value="${list.mno}"><a th:href="@{'/guest?mno=' + ${list.mno}}">[[${list.name}]]</td>
+            <td>[[${list.grade}]]</td>
+            <td>[[${list.exp}]]</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+<h3><strong th:text="${memberRequest.name}">회원</strong>님 회원가입이 완료되었습니다</h3>
+ <button th:onclick="|location.href='@{/login}'|">로그인하기</button>
+</body>
+</html>
