@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bori.project31.repository.GuestbookMapper">
+
+    <!-- tb_member 테이블 전체 컬럼 -->
+    <sql id="guestbookColumns">
+          cno
+        , mno
+        , content
+        , created_date
+        , modified_date
+        , delete_yn
+        , writer
+    </sql>
+
+	<insert id="save" parameterType="com.bori.project31.model.CommentRequest"
+			useGeneratedKeys="true" keyProperty="cno">
+		INSERT INTO guestbook(mno, content, created_date, modified_date, delete_yn, writer)
+		VALUES (#{mno}, #{content}, NOW(), NULL, 0, #{writer})
+	</insert>
+
+	<select id="findBycno" parameterType="Integer" resultType="com.bori.project31.model.Guestbook">
+		SELECT (<include refid="guestbookColumns" />)  FROM guestbook WHERE cno=#{cno}
+	</select>
+
+	<update id="update" parameterType="com.bori.project31.model.CommentRequest">
+		UPDATE guestbook SET modified_date=NOW(), content=#{content} WHERE cno=#{cno}
+	</update>
+
+	<delete id="deleteByCno" parameterType="Integer">
+		UPDATE guestbook SET delete_yn=1 WHERE cno=#{cno}
+	</delete>
+
+	<!-- #{value} 확인 -->
+	<select id="findAll" parameterType="int" resultType="com.bori.project31.model.Guestbook">
+		SELECT <include refid="guestbookColumns"></include> FROM guestbook
+		        WHERE delete_yn=0 AND mno=#{value} ORDER BY cno DESC
+	</select>
+
+
+
+</mapper>

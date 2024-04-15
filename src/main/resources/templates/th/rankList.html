@@ -27,7 +27,7 @@
 			<tbody>
 				<tr th:each="list:${list}">
 					<td>[[${list.ranking}]]</td>
-					<td name="mno" value="${list.mno}"><a th:href="@{'/guest?mno=' + ${list.mno}}">[[${list.name}]]</td>
+					<td name="mno" value="${list.mno}"><a th:href="@{'/guest?mno=' + ${list.mno}}">[[${list.name}]]</a></td>
 					<td>[[${list.grade}]]</td>
 					<td>[[${list.exp}]]</td>
 				</tr>
