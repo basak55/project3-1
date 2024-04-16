@@ -22,8 +22,8 @@
 		VALUES (#{mno}, #{content}, NOW(), NULL, 0, #{writer})
 	</insert>
 
-	<select id="findBycno" parameterType="Integer" resultType="com.bori.project31.model.Guestbook">
-		SELECT (<include refid="guestbookColumns" />)  FROM guestbook WHERE cno=#{cno}
+	<select id="findCommentByCno" parameterType="Integer" resultType="com.bori.project31.model.Guestbook">
+		SELECT <include refid="guestbookColumns" />  FROM guestbook WHERE cno=#{cno}
 	</select>
 
 	<update id="update" parameterType="com.bori.project31.model.CommentRequest">
@@ -37,9 +37,8 @@
 	<!-- #{value} 확인 -->
 	<select id="findAll" parameterType="int" resultType="com.bori.project31.model.Guestbook">
 		SELECT <include refid="guestbookColumns"></include> FROM guestbook
-		        WHERE delete_yn=0 AND mno=#{value} ORDER BY cno DESC
+		        WHERE delete_yn=0 AND mno=#{value} ORDER BY cno ASC
 	</select>
-
 
 
 </mapper>

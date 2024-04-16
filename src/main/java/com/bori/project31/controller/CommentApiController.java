@@ -27,4 +27,11 @@ public class CommentApiController {
     public List<Guestbook> findAllComment(@PathVariable final int mno){
         return guestbookService.findAllComment(mno);
     }
+
+    //댓글 수정하기
+    @PatchMapping("/posts/{mno}/comments/{cno}")
+    public Guestbook updateComment(@PathVariable final int mno, @PathVariable final int cno, @RequestBody final CommentRequest params){
+        guestbookService.updateComment(params);
+        return guestbookService.findCommentByCno(cno);
+    }
 }

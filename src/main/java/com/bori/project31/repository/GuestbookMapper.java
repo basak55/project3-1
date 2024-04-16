@@ -11,7 +11,7 @@ public interface GuestbookMapper {
     
     public void save(CommentRequest params); //파라미터로 받아올 정보
 
-    Guestbook findByCno(int cno);
+    Guestbook findCommentByCno(int cno);
 
     void update(CommentRequest params);
     

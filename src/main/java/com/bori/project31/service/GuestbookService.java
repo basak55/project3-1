@@ -26,7 +26,7 @@ public class GuestbookService {
 
     //상세조회
     public Guestbook findCommentByCno(int cno){
-        return guestbookMapper.findByCno(cno);
+        return guestbookMapper.findCommentByCno(cno);
     }
 
     //수정
