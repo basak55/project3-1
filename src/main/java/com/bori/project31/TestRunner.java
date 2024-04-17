@@ -60,7 +60,7 @@ public class TestRunner implements ApplicationRunner{
 		jdbcTemplate.execute("INSERT INTO Level(loexp, hiexp, grade) VALUES (2000, 9999, 'challenger')");
 
 		//방명록
-		jdbcTemplate.execute("INSERT INTO Guestbook(mno, content, created_date, delete_yn, writer) VALUES (1, '제발 떠라', NOW(), 0, '바삭이')");
+		jdbcTemplate.execute("INSERT INTO Guestbook(guestbookmno, content, created_date, delete_yn, writer) VALUES (1, '제발 떠라', NOW(), 0, '바삭이')");
 
 		//ranking 현재 회원의 exp보다 큰 값을 가진 다른 회원의 수를 count해서 +1
 //		jdbcTemplate.execute("CREATE VIEW member_rank AS SELECT " +

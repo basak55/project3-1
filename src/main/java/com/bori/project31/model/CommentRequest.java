@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentRequest {
     private int cno;
-    private int mno;
+    private int guestbookmno;
     private String content;
-    private String Writer;
+    private String writer;
 }

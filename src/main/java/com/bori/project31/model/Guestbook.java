@@ -10,7 +10,7 @@ import java.util.Date;
 public class Guestbook { //CommentResponse
 
     private int cno;
-    private int mno; //방명록 소유자
+    private int guestbookmno; //방명록 소유자
     private String content;
     private String writer; //방명록 쓴사람
     @Temporal(TemporalType.TIMESTAMP)

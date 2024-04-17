@@ -8,7 +8,7 @@
     <!-- tb_member 테이블 전체 컬럼 -->
     <sql id="guestbookColumns">
           cno
-        , mno
+        , guestbookmno
         , content
         , created_date
         , modified_date
@@ -18,8 +18,8 @@
 
 	<insert id="save" parameterType="com.bori.project31.model.CommentRequest"
 			useGeneratedKeys="true" keyProperty="cno">
-		INSERT INTO guestbook(mno, content, created_date, modified_date, delete_yn, writer)
-		VALUES (#{mno}, #{content}, NOW(), NULL, 0, #{writer})
+		INSERT INTO guestbook(guestbookmno, content, created_date, modified_date, delete_yn, writer)
+		VALUES (#{guestbookmno}, #{content}, NOW(), NULL, 0, #{writer})
 	</insert>
 
 	<select id="findCommentByCno" parameterType="Integer" resultType="com.bori.project31.model.Guestbook">
@@ -37,7 +37,7 @@
 	<!-- #{value} 확인 -->
 	<select id="findAll" parameterType="int" resultType="com.bori.project31.model.Guestbook">
 		SELECT <include refid="guestbookColumns"></include> FROM guestbook
-		        WHERE delete_yn=0 AND mno=#{value} ORDER BY cno ASC
+		        WHERE delete_yn=0 AND guestbookmno=#{value} ORDER BY cno ASC
 	</select>
 
 

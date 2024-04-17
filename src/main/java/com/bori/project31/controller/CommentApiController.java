@@ -16,13 +16,13 @@ public class CommentApiController {
     private final GuestbookService guestbookService;
 
     //새 댓글
-    @PostMapping("/posts/{mno}/comments")
-    public Guestbook saveComment(@PathVariable final int mno, @RequestBody final CommentRequest params) {
+    @PostMapping("/posts/{guestbookmno}/comments")
+    public Guestbook saveComment(@PathVariable final int guestbookmno, @RequestBody final CommentRequest params) {
         int cno = guestbookService.saveComment(params);
         return guestbookService.findCommentByCno(cno);
     }
 
-    //댓글 불러오기
+    //목록 불러오기
     @GetMapping("/posts/{mno}/comments")
     public List<Guestbook> findAllComment(@PathVariable final int mno){
         return guestbookService.findAllComment(mno);
@@ -33,5 +33,11 @@ public class CommentApiController {
     public Guestbook updateComment(@PathVariable final int mno, @PathVariable final int cno, @RequestBody final CommentRequest params){
         guestbookService.updateComment(params);
         return guestbookService.findCommentByCno(cno);
+    }
+
+    //삭제
+    @DeleteMapping("/posts/{mno}/comments/{cno}")
+    public int deleteComment(@PathVariable final int mno, @PathVariable final int cno){
+        return guestbookService.deleteComment(cno);
     }
 }

@@ -18,7 +18,7 @@ public class MemberController {
 	
 	
 	//아이디 중복 조회
-	@PostMapping("/checkId")
+	@PostMapping("/signUpCheckId")
 	public boolean checkId(@RequestParam String mid) {
 		return memberInfoService.countMemberById(mid);
 	}

@@ -16,7 +16,7 @@ td input { width: 100%;}
 	<div class="signup" >
 		<h2 th:text="회원가입"></h2>
 		<div id="signupForm">
-			<form action="member" method="post">
+			<form action="signUpMember" method="post">
 				<table class="signuptable">
 					<tbody>
 						<tr>
@@ -54,7 +54,7 @@ td input { width: 100%;}
 						</tr>
 						<tr>
 							<th scope="row">자기소개</th>
-							<td><textarea name="mintro" placeholder="자기소개"></textarea></td>
+							<td><textarea name="mintro" placeholder="자기소개" cols="60" rows="4"></textarea></td>
 						</tr>	
 						<tr>
 							<td colspan="2">
@@ -86,7 +86,7 @@ td input { width: 100%;}
     		
         	//Ajax로 전송
         	$.ajax({
-        		url : '/checkId',
+        		url : '/signUpCheckId',
         		data : {
         			mid : mid
         		},

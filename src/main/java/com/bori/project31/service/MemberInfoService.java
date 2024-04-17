@@ -47,20 +47,21 @@ public class MemberInfoService {
 		return member;
 	}
 	
-	//로그인 -> 방문횟수 증가
-	public int login(LoginRequest logReq) {
+	//로그인 (-> 방문횟수 증가)
+	public Member login(LoginRequest logReq) {
 		//입력한 id로 회원정보 확인
 		Member member = memberMapper.selectById(logReq.getMid());
-		if(member == null) { //존재하지 않는 아이디
-			return 0;
+		String mpw = (member == null) ? "" : member.getMpw();
+
+		//입력한 비밀번호 확인
+		if (member == null || !logReq.getMpw().equals(mpw)){
+			return null;
 		}
-		if(!member.getMpw().equals(logReq.getMpw())) { // 잘못된 비밀번호
-			return -1;
-		} else if(member.getMid().equals(logReq.getMid()) && member.getMpw().equals(logReq.getMpw())){
-			recordMapper.updateVisit(member.getMno()); // 방문횟수 증가
-			return member.getMno(); // 로그인 성공
-		}	
-		return -2; //기타 오류
+		//방문 횟수 증가
+		recordMapper.updateVisit(member.getMno());
+		//입력한 정보에서 비밀번호 제거 후 리턴
+		member.clearMpw();
+		return member;
 	}
 
 	//게임 판수 증가 (Rno)

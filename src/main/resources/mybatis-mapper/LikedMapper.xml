@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bori.project31.repository.LikedMapper">
+
+    <!-- likedColumns 테이블 전체 컬럼 -->
+    <sql id="likedColumns">
+          likeno
+        , likemno
+        , guestbookmno
+        , likedat
+    </sql>
+
+	<insert id="like" parameterType="com.bori.project31.model.LikeRequest">
+		INSERT INTO liked(likemno, guestbookmno, likedat) VALUES (#{likemno}, #{guestbookmno}, NOW())
+	</insert>
+
+	<update id="">
+
+	</update>
+
+
+</mapper>

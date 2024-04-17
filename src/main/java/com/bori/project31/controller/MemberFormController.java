@@ -1,5 +1,6 @@
 package com.bori.project31.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.bori.project31.model.LoginRequest;
@@ -7,17 +8,16 @@ import com.bori.project31.model.Member;
 import com.bori.project31.model.MemberRank;
 import com.bori.project31.model.MemberRequest;
 import com.bori.project31.service.MemberInfoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class MemberFormController {
 	
 	@Autowired
@@ -31,7 +31,7 @@ public class MemberFormController {
 	}
 	
 	//회원 가입  
-	@PostMapping("/member")
+	@PostMapping("/signUpMember")
 	public String insertMember(MemberRequest req) {
 		Member member = new Member(req.getMid(), req.getMpw(), req.getName(), req.getGender(), req.getMintro());
 		memberInfoService.insertMember(member);
@@ -45,20 +45,32 @@ public class MemberFormController {
 	}
 	
 	//로그인 체크
-	@PostMapping("/loginCheck")
-	public String loginCheck(LoginRequest logReq, Model model, HttpSession session) {
-		int loginStatus = memberInfoService.login(logReq);
-		String id = logReq.getMid();
-		if(loginStatus > 0) { //로그인 성공시 mno반환
-			session.setAttribute("loginId", logReq.getMid()); //세션에 Mid 저장
-			session.setAttribute("mno", loginStatus);
-			return "index";
-		} else if (loginStatus <= 0){ // 0~-2
-			return "redirect:/login?loginStatus="+loginStatus; //로그인 실패 원인 코드 반환..할까?
+	@PostMapping("/login")
+	@ResponseBody
+	public Member loginCheck(LoginRequest logReq, Model model, HttpServletRequest request) {
+		//로그인 정보 체크
+		String loginId = logReq.getMid();
+		String loginPw = logReq.getMpw();
+		Member member = memberInfoService.login(logReq);
+
+		//세션에 회원 정보 저장, 세션 유지 시간 설정
+		if(member != null) { 
+			HttpSession session = request.getSession();
+			session.setAttribute("loginMember", member);
+			session.setMaxInactiveInterval(60*30);
+//			System.out.println(session.getAttribute("loginMember"));
 		}
-		return "redirect:/login?loginStatus="+loginStatus;
+		return member;
 	}
 
+	//로그아웃
+	@PostMapping("/logout")
+	public String logout(HttpSession session){
+		session.invalidate();
+		return "redirect:/th/loginForm";
+	}
+
+	//랭킹 리스트
 	@GetMapping("/rank")
 	public String rank(Model model){
 		List<MemberRank> list = memberInfoService.selectMemberRank();

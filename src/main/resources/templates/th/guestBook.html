@@ -8,7 +8,7 @@
 <div>
     <div class="container" >
         <h2>종합랭킹</h2>
-        <h3 th:text="${info.mid}+'님의 방명록'"></h3>
+        <h3 th:text="${info.name}+'님의 방명록'"></h3>
         <table class="guestbookInfo">
             <colgroup>
                 <col width="50%"/>
@@ -36,7 +36,7 @@
     </div>
 
     <div style="border-top: 1px solid black; margin-top: 10px; margin-bottom: 10px;"></div>
-    <button type="button" class="btns" onclick="">추 천</button>
+    <button type="button" class="btns" onclick="like(${info.mno});">추 천</button>
     <button type="button" class="btns" onclick="">비추천</button>
     <button type="button" class="btns" onclick="">뒤로가기</button>
     <div style="border-top: 1px solid black; margin-top: 10px; margin-bottom: 10px;"></div>
@@ -76,15 +76,15 @@
         const content = document.getElementById('content');
         // isValid(content, '댓글');
 
-        const mno = [[${info.mno}]];
+        const guestbookmno = [[${info.mno}]];
         const params = {
-            mno : mno,
+            guestbookmno : guestbookmno,
             content : content.value,
             writer : '홍길동',
         }
         console.log(params);
         $.ajax({
-            url : `/posts/${mno}/comments`,
+            url : `/posts/${guestbookmno}/comments`,
             type : 'post',
             contentType : 'application/json; charset=utf-8',
             dataType : 'json',
@@ -137,7 +137,7 @@
                             <p class="func_btns">
                                 <button type="button" class="commUpdateBtn_${row.cno}" onclick="updateCommentForm(${row.cno})"><span class="icons icon_modify">수정</span></button>
                                 <button type="button" class="updateCom_${row.cno}" style="display: none;" onclick="updateComment(${row.cno})"><span class="icons icon_modify">완료</span></button>
-                                <button type="button" class="delBtn_${row.cno}"><span class="icons icon_del">삭제</span></button>
+                                <button type="button" class="delBtn_${row.cno}" onclick="deleteComment(${row.cno});"><span class="icons icon_del">삭제</span></button>
                             </p>
                         </div>
                     `;
@@ -191,6 +191,31 @@
                 console.log(error)
             }
         });
+    }
+
+    //댓글 삭제
+    function deleteComment(cno){
+        if (!confirm('선택하신 댓글을 삭제할까요?❉𓂂(◕˓˳◕ )𓂂❉')) {
+            return false; //취소하는 경우 로직 종료
+        }
+        const mno=[[${info.mno}]];
+        $.ajax({
+            url: `/posts/${mno}/comments/${cno}`,
+            type : 'delete',
+            dataType : 'json',
+            async : false,
+            success: function (response){
+                alert('삭제되었습니다 (*ᴗ͈ˬᴗ͈)ꕤ*.ﾟ');
+                findAllComment();
+            },
+            error : function (request, status, error) {
+                console.log(error)
+            }
+        });
+    }
+
+    function like(guestbookmno){
+
     }
 
 

@@ -19,7 +19,6 @@ public class Member {
 	private int exp;
 	private String mintro;
 
-
 	public Member(String mid, String mpw, String name, String gender, String mintro) {
 		this.mid = mid;
 		this.mpw = mpw;
@@ -31,6 +30,10 @@ public class Member {
 	public Member(String mid) {
 		super();
 		this.mid = mid;
+	}
+
+	public void clearMpw(){
+		this.mpw="";
 	}
 	
 	

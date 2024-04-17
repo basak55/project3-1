@@ -37,6 +37,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
+	//check 컨트롤러에서 받아온 url로 아래 메세지 출력
 	var queryString = window.location.search;
 	var params = {};
 	if (queryString) {

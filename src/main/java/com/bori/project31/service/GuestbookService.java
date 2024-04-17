@@ -17,7 +17,7 @@ public class GuestbookService {
     @Autowired
     GuestbookMapper guestbookMapper;
 
-    //방명록 저장
+    //댓글 저장
     @Transactional
     public int saveComment(CommentRequest params){
         guestbookMapper.save(params);
