@@ -18,7 +18,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
         //회원 정보 체크
         if(member == null){
-            response.sendRedirect("/th/loginForm");
+            response.sendRedirect("/login");
             return false;
         }
 

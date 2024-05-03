@@ -9,6 +9,6 @@ public class TypoCheckService {
 
 	public boolean typoCheck(CheckRequest checkReq) {
 //		sentence.equalsIgnoreCase(inputText);
-		return checkReq.getInputText().equalsIgnoreCase(checkReq.getQuest());		
+		return checkReq.getInputText().equals(checkReq.getQuest());
 	}
 }

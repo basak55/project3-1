@@ -1,6 +1,7 @@
 package com.bori.project31.controller;
 
 import com.bori.project31.model.CheckRequest;
+import com.bori.project31.model.Member;
 import com.bori.project31.model.Sentence;
 import com.bori.project31.service.MemberInfoService;
 import com.bori.project31.service.MemberRecordService;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -33,11 +36,12 @@ public class GameFormController {
 
 	
 	@GetMapping("/game")
-	public String game(Model model) {
+	public String game(Model model, HttpSession session) {
 		model.addAttribute("sent", randomSentService.selectForGame());
-		int mno = 1; //rno 증가 테스트용!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!값 받아오는걸로 바꾸기
-		memberInfoService.updateRno(mno);
-		return "game";
+		Member member = (Member)session.getAttribute("loginMember");
+		memberInfoService.updateRno(member.getMno()); //플레이횟수 증가
+		model.addAttribute("loginMember", member);
+		return "/th/game/game";
 	}
 
 	@PostMapping("/check")

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        .container {max-width:1024px; margin:30px auto;}
+        .checkTypo input {width:80%;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h4>명언 필사하기</h4>
+    <div class="gameQuest">
+        <input class="quest" id="quest" type="text" readonly th:value="${sent.sent}" name="quest" />
+        <label for="quest" th:text="${sent.writer}"></label>
+    </div>
+    <div class="gameInput">
+        <input class="inputText" type="text" name="inputText" />
+        <button id="check" onclick="checkTypo()">완료</button>
+    </div>
+
+    <input type="hidden" th:value="${loginMember.mno}" name="mno" class="mno">
+    <p id="checkResult"></p>
+
+    <div>
+        <p></p>
+    </div>
+</div>
+<button type="button" onclick='location.href="/"'>종료하기</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    const mno = document.querySelector('.mno');
+    function checkTypo() {
+        const inputText = document.querySelector('.inputText');
+        const quest = document.querySelector('.quest');
+        const params = {
+            quest : quest.value,
+            inputText : inputText.value,
+            mno : mno.value,
+        }
+        console.log(params);
+        $.ajax({
+            url : `/game/${mno.value}/check`,
+            type : 'post',
+            contentType : 'application/json; charset=utf-8',
+            dataType : 'json',
+            data : JSON.stringify(params),
+            async : false,
+            success : function (response) {
+                if (response) {
+                    $("#checkResult").css("color", "blue").text("잘하고있어요!ദ്ദി*ˊᗜˋ*)");
+                } else if (!response) {
+                    $("#checkResult").css("color", "red").text("조금 더 신중하게!(꒪⌓꒪);;");
+                } else {
+                    $("#checkResult").css("color", "black").text("결과를 가져오지 못했어요...");
+                }
+                newSentence();
+                inputText.value = '';
+            },
+            error : function (request, status, error) {
+                console.log(error)
+            }
+        });
+    }
+
+    function newSentence(){
+        $.ajax({
+            url : `/game/${mno.value}/new`,
+            type : 'post',
+            dataType : 'json',
+            async : false,
+            success : function (sentence) {
+                console.log(sentence.sent);
+                document.querySelector('.gameQuest').innerHTML =
+                    `<div class="gameQuest">
+                        <input class="quest" id="quest" type="text" readonly value="${sentence.sent}" name="quest" />
+                        <label for="quest" text="${sentence.writer}"></label>
+                    </div>`;
+            },
+            error : function (request, status, error) {
+                console.log(error)
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

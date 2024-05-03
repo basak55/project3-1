@@ -14,5 +14,6 @@ public class CheckRequest {
 	private String inputText;
 	private String quest; // Sentence
 	private int mno;
+	private Boolean result;
 
 }
