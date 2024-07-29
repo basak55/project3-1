@@ -16,23 +16,34 @@
         , mintro
     </sql>
 
+	<!-- 랭킹 (member, level) -->
 	<select id="selectMemberRank" resultType="com.bori.project31.model.MemberRank">
-		SELECT * FROM member_rank ORDER BY ranking ASC
+		SELECT m.mno, m.mid, m.name, m.exp, l.grade,
+		       ROW_NUMBER() OVER (ORDER BY exp DESC) AS ranking
+		FROM member m JOIN level l ON m.exp BETWEEN l.loexp AND l.hiexp;
 	</select>
 
+	<!-- 랭킹에서 개별회원 눌렀을때 -->
 	<select id="selectRankByMno" parameterType="Integer" resultType="com.bori.project31.model.MemberRank">
-		SELECT * FROM member_rank WHERE mno=#{mno}
+		SELECT m.mno, m.mid, m.name, m.exp, l.grade,
+			   ROW_NUMBER() OVER (ORDER BY exp DESC) AS ranking
+		FROM member m JOIN level l ON m.exp BETWEEN l.loexp AND l.hiexp
+		WHERE m.mno = #{mno}
 	</select>
 
+	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="com.bori.project31.model.Member"
 			useGeneratedKeys="true" keyProperty="mno">
 		INSERT INTO member (mid, mpw, name, gender, mintro)
 		VALUES (#{mid}, #{mpw}, #{name}, #{gender}, #{mintro})
 	</insert>
 
+	<!-- 정답일때 경험치 + -->
 	<update id="updateExp1" parameterType="Integer">
 		UPDATE member SET exp=exp+30 WHERE mno=#{mno}
 	</update>
+
+	<!-- 오답일때 경험치 + -->
 	<update id="updateExp2" parameterType="Integer">
 		UPDATE member SET exp=exp+10 WHERE mno=#{mno}
 	</update>
@@ -41,14 +52,17 @@
 		
 	</update>
 
+	<!-- 멤버정보 조회 (mid) -->
 	<select id="selectById" parameterType="String" resultType="com.bori.project31.model.Member">
 		SELECT * FROM member WHERE mid=#{mid}
 	</select>
-	
+
+	<!-- 멤버정보 조회 (mno)-->
 	<select id="selectByMno" parameterType="Integer" resultType="com.bori.project31.model.Member">
 		SELECT * FROM member WHERE mno=#{mno}
 	</select>
-	
+
+	<!-- 아이디 중복조회 -->
 	<select id="countMemberById" parameterType="String" resultType="boolean">
 		SELECT COUNT(*) FROM member WHERE mid=#{mid}
 	</select>
