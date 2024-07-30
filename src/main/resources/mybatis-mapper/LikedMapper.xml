@@ -8,18 +8,26 @@
     <!-- likedColumns 테이블 전체 컬럼 -->
     <sql id="likedColumns">
           likeno
+        , getlikedmno
         , likemno
-        , guestbookmno
         , likedat
     </sql>
 
+    <!-- 좋아요 누르기 -->
 	<insert id="like" parameterType="com.bori.project31.model.LikeRequest">
-		INSERT INTO liked(likemno, guestbookmno, likedat) VALUES (#{likemno}, #{guestbookmno}, NOW())
+		INSERT INTO liked(likemno, getlikedmno, likedat) VALUES (#{likemno}, #{guestbookmno}, NOW())
 	</insert>
 
-	<update id="">
+    <!-- 좋아요 수 by getlikedmno -->
+    <select id="countLiked" parameterType="integer" resultType="integer">
+        SELECT COUNT * AS like FROM liked WHERE getlikedmno=#{mno}
+    </select>
 
-	</update>
+    <!-- 좋아요 누른 사람 목록 -->
+    <select id="selectLikemno" parameterType="integer" resultType="com.bori.project31.model.LikeRequest">
+        SELECT l.getlikedmno, l.likemno, l.likedat, m.name FROM liked l JOIN member m ON l.likemno = m.mno WHERE l.getlikedmno=#{mno}
+    </select>
+
 
 
 </mapper>

@@ -9,8 +9,8 @@ public class Liked {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int likeno;
-    private int guestbookmno;   //눌린사람 (Guestbook mno)
-    private int likedmno;       //누른사람 (Member mno)
+    private int getlikedmno;   //눌린사람 (Guestbook mno)
+    private int likemno;       //누른사람 (login mno)
     @Temporal(TemporalType.TIMESTAMP)
     private Date likedat;       //시간
     

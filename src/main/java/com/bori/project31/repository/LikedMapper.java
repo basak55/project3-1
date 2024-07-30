@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface LikedMapper {
 
     public void like(LikeRequest params);
+    public int countLiked(int mno);
+    public LikeRequest selectLikemno(int mno);
 }
